@@ -30,11 +30,7 @@ public class GameController : MonoBehaviour {
 
             // Update
             
-            
-            .Add(pool.CreateSystem<CreateGameBoardCacheSystem>())
-            .Add(pool.CreateSystem<GameBoardSystem>())
-            .Add(pool.CreateSystem<FallSystem>())
-            .Add(pool.CreateSystem<FillSystem>())
+            .Add(pool.CreateSystem<EntitySpawningTimerSystem>())
             .Add(pool.CreateSystem<ScoreSystem>()) 
 
             // Render
