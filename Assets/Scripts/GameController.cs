@@ -26,12 +26,12 @@ public class GameController : MonoBehaviour {
 
             // Input
             .Add(pool.CreateSystem<ProcessInputSystem>())
-            //.Add(pool.CreateSystem<PlayerInputSystem>())
 
             // Update
             
             .Add(pool.CreateSystem<EntitySpawningTimerSystem>())
-            .Add(pool.CreateSystem<ScoreSystem>()) 
+            .Add(pool.CreateSystem<MovementSystem>()) 
+            .Add(pool.CreateSystem<CollisionSystem>()) 
 
             // Render
             .Add(pool.CreateSystem<RemoveViewSystem>())

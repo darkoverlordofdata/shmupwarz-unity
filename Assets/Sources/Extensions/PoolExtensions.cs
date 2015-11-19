@@ -11,24 +11,23 @@ public static class PoolExtensions {
     static System.Random rnd = new System.Random();
 
     
-    public static Entity CreatePlayer(this Pool pool, int x, int y) {
+    public static Entity CreatePlayer(this Pool pool) {
 
         Vector3 pos = Camera.main.ScreenToWorldPoint(new Vector3(Screen.width/2, 100, 0));
         
         return pool.CreateEntity()
             .AddBounds(43)
             .AddHealth(100, 100)
-            .AddVelocity(0, 0)
             .AddPosition(pos.x, pos.y, pos.z)
             .IsPlayer(true)
             .AddResource(Res.Fighter);
             
     }
 
-    public static Entity CreateBullet(this Pool pool, int x, int y) {
+    public static Entity CreateBullet(this Pool pool, float x, float y) {
         return pool.CreateEntity()
             .AddBounds(43)
-            .AddVelocity(0, 800)
+            .AddVelocity(0f, 800, 0)
             .AddPosition(x, y, 0)
             .AddExpires(1)
             .AddSoundEffect(EFFECT_PEW)
@@ -44,8 +43,8 @@ public static class PoolExtensions {
         
         return pool.CreateEntity()
             .AddBounds(20)
-            .AddVelocity(0, -40)
             .AddPosition(pos.x, pos.y, pos.z)
+            .AddVelocity(0f, -40f, 0f)
             .AddHealth(10, 10)
             .IsEnemy(true)
             .AddResource(Res.Enemy1);
@@ -59,8 +58,8 @@ public static class PoolExtensions {
 
         return pool.CreateEntity()
             .AddBounds(40)
-            .AddVelocity(0, -30)
             .AddPosition(pos.x, pos.y, pos.z)
+            .AddVelocity(0, -30, 0f)
             .AddHealth(20, 20)
             .IsEnemy(true)
             .AddResource(Res.Enemy2);
@@ -74,7 +73,7 @@ public static class PoolExtensions {
 
         return pool.CreateEntity()
             .AddBounds(70)
-            .AddVelocity(0, -20)
+            .AddVelocity(0, -20, 0f)
             .AddPosition(pos.x, pos.y, pos.z)
             .AddHealth(60, 60)
             .IsEnemy(true)

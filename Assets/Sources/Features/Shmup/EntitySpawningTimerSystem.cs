@@ -39,9 +39,9 @@ public class EntitySpawningTimerSystem : ISetPool, IExecuteSystem, IInitializeSy
 
     public void Initialize() {
     
-        timer1 = new SpawnEnemy1(2, true);
-        timer2 = new SpawnEnemy2(6, true);
-        timer3 = new SpawnEnemy3(12, true);
+        timer1 = new SpawnEnemy1(2, false);
+        timer2 = new SpawnEnemy2(6, false);
+        timer3 = new SpawnEnemy3(12, false);
         
     }
 

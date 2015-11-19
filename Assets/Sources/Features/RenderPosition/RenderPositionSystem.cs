@@ -3,16 +3,20 @@ using DG.Tweening;
 using Entitas;
 using UnityEngine;
 
-public class RenderPositionSystem : IReactiveSystem {
-    public TriggerOnEvent trigger { get { return Matcher.AllOf(Matcher.Position, Matcher.View).OnEntityAdded(); } }
+public class RenderPositionSystem : IExecuteSystem, ISetPool {
 
-    public void Execute(List<Entity> entities) {
+    Pool _pool;
+    Group _group;
 
-        Debug.Log("Render Position");
+    public void SetPool(Pool pool) {
+        _pool = pool;
+        _group = pool.GetGroup(Matcher.AllOf(Matcher.Position, Matcher.Resource));
+    }
 
-        foreach (var e in entities) {
+    public void Execute() {
+
+        foreach (var e in _group.GetEntities()) {
             var pos = e.position;
-//            e.view.gameObject.transform.DOMove(new Vector3(pos.x, pos.y, 0f), 0.3f);
             e.view.gameObject.transform.position = new Vector3(pos.x, pos.y, 0f);
         }
     }
