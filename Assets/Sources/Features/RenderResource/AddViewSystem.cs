@@ -10,7 +10,7 @@ public class AddViewSystem : IReactiveSystem {
 
     public void Execute(List<Entity> entities) {
 
-        Debug.Log("Add View");
+        //Debug.Log("Add View");
 
         foreach (var e in entities) {
             var res = Resources.Load<GameObject>(e.resource.name);
@@ -22,13 +22,17 @@ public class AddViewSystem : IReactiveSystem {
             }
 
             if (gameObject != null) {
-                gameObject.transform.SetParent(_viewContainer, false);
-                e.AddView(gameObject);
-
                 if (e.hasPosition) {
                     var pos = e.position;
-                    gameObject.transform.position = new Vector3(pos.x, pos.y + 1, 0f);
+                    gameObject.transform.position = new Vector3(pos.x, pos.y, 0f);
                 }
+                if (e.hasScale) {
+                    var scale = e.scale;
+                    gameObject.transform.localScale = new Vector3(scale.x, scale.y, 0f);
+                }
+                
+                gameObject.transform.SetParent(_viewContainer, false);
+                e.AddView(gameObject);
             }
         }
     }

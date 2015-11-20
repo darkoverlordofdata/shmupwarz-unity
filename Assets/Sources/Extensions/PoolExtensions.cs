@@ -1,11 +1,12 @@
-﻿using Entitas;
+﻿using System;
+using Entitas;
 using UnityEngine;
 
 public static class PoolExtensions {
 
     static readonly int EFFECT_PEW = 0;
-    //static readonly int EFFECT_ASPLODE = 1;
-    //static readonly int EFFECT_SMALLASPLODE = 1;
+    static readonly int EFFECT_ASPLODE = 1;
+    static readonly int EFFECT_SMALLASPLODE = 1;
     
     
     static System.Random rnd = new System.Random();
@@ -16,7 +17,7 @@ public static class PoolExtensions {
         Vector3 pos = Camera.main.ScreenToWorldPoint(new Vector3(Screen.width/2, 100, 0));
         
         return pool.CreateEntity()
-            .AddBounds(43)
+            .AddBounds(4)
             .AddHealth(100, 100)
             .AddPosition(pos.x, pos.y, pos.z)
             .IsPlayer(true)
@@ -26,7 +27,7 @@ public static class PoolExtensions {
 
     public static Entity CreateBullet(this Pool pool, float x, float y) {
         return pool.CreateEntity()
-            .AddBounds(43)
+            .AddBounds(.1f)
             .AddVelocity(0f, 800, 0)
             .AddPosition(x, y, 0)
             .AddExpires(1)
@@ -42,7 +43,7 @@ public static class PoolExtensions {
         Vector3 pos = Camera.main.ScreenToWorldPoint(new Vector3(x, y, 0));
         
         return pool.CreateEntity()
-            .AddBounds(20)
+            .AddBounds(1)
             .AddPosition(pos.x, pos.y, pos.z)
             .AddVelocity(0f, -40f, 0f)
             .AddHealth(10, 10)
@@ -57,7 +58,7 @@ public static class PoolExtensions {
         Vector3 pos = Camera.main.ScreenToWorldPoint(new Vector3(x, y, 0));
 
         return pool.CreateEntity()
-            .AddBounds(40)
+            .AddBounds(2)
             .AddPosition(pos.x, pos.y, pos.z)
             .AddVelocity(0, -30, 0f)
             .AddHealth(20, 20)
@@ -72,14 +73,42 @@ public static class PoolExtensions {
         Vector3 pos = Camera.main.ScreenToWorldPoint(new Vector3(x, y, 0));
 
         return pool.CreateEntity()
-            .AddBounds(70)
+            .AddBounds(3)
             .AddVelocity(0, -20, 0f)
             .AddPosition(pos.x, pos.y, pos.z)
             .AddHealth(60, 60)
             .IsEnemy(true)
             .AddResource(Res.Enemy3);
     }
+    
+    public static Entity CreateParticle(this Pool pool, float x, float y) {
+        float radians = (float)(rnd.NextDouble() * Math.PI * 2);
+        float magnitude = (float)rnd.Next(200);
+        float velocityX = magnitude * (float)Math.Cos(radians);
+        float velocityY = magnitude * (float)Math.Sin(radians);
+        float scale = (float)rnd.NextDouble() * .5f;
+    
+        return pool.CreateEntity()
+            .AddResource(Res.Particle)
+            .AddExpires(1)
+            .AddColorAnimation(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, -1, false, false, false, true, true)
+            .AddVelocity(velocityX, velocityY, 0)
+            .AddScale(scale, scale)
+            .AddPosition(x, y, 0);
+            
+    
+    }
 
+    public static Entity CreateExplosion(this Pool pool, float x, float y, float scale) {
+        return pool.CreateEntity()
+            .AddSoundEffect(scale < .5 ? EFFECT_SMALLASPLODE : EFFECT_ASPLODE)
+            .AddExpires(0.5f)
+            .AddScale(scale, scale)
+            .AddScaleAnimation(scale/100, scale, -3, false, true)
+            .AddPosition(x, y, 0)
+            .AddResource(Res.Explosion);
+    }
+    
 
 }
 

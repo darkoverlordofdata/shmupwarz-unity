@@ -13,7 +13,7 @@ public class DestroySystem : IReactiveSystem, ISetPool {
 
     public void Execute(List<Entity> entities) {
 
-        Debug.Log("Destroy");
+        //Debug.Log("Destroy");
 
         foreach (var e in entities) {
             _pool.DestroyEntity(e);

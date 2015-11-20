@@ -32,13 +32,16 @@ public class GameController : MonoBehaviour {
             .Add(pool.CreateSystem<EntitySpawningTimerSystem>())
             .Add(pool.CreateSystem<MovementSystem>()) 
             .Add(pool.CreateSystem<CollisionSystem>()) 
-
-            // Render
+            .Add(pool.CreateSystem<ExpiringSystem>())
+            .Add(pool.CreateSystem<ColorAnimationSystem>())
+            .Add(pool.CreateSystem<ScaleAnimationSystem>())
+            // Render 
             .Add(pool.CreateSystem<RemoveViewSystem>())
             .Add(pool.CreateSystem<AddViewSystem>())
             .Add(pool.CreateSystem<RenderPositionSystem>())
 
             // Destroy
+            .Add(pool.CreateSystem<RemoveOffscreenShipsSystem>())
             .Add(pool.CreateSystem<DestroySystem>());
     }
 }
