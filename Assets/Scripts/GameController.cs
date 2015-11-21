@@ -8,9 +8,10 @@ public class GameController : MonoBehaviour {
 
     void Start() {
         Random.seed = 42;
-
+        
         _systems = createSystems(Pools.pool);
         _systems.Initialize();
+        Pools.pool.CreatePlayer();
     }
 
     void Update() {
@@ -35,6 +36,7 @@ public class GameController : MonoBehaviour {
             .Add(pool.CreateSystem<ExpiringSystem>())
             .Add(pool.CreateSystem<ColorAnimationSystem>())
             .Add(pool.CreateSystem<ScaleAnimationSystem>())
+            .Add(pool.CreateSystem<ScoreSystem>())
             // Render 
             .Add(pool.CreateSystem<RemoveViewSystem>())
             .Add(pool.CreateSystem<AddViewSystem>())

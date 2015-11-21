@@ -3,30 +3,31 @@ using UnityEngine;
 using System.Collections.Generic;
 public class ScaleAnimationSystem : ISetPool, IExecuteSystem {
 
-    Group _group;
+    Group group;
 
     public void SetPool(Pool pool) {
-        _group = pool.GetGroup(Matcher.AllOf(Matcher.Scale, Matcher.ScaleAnimation, Matcher.View));
+        group = pool.GetGroup(Matcher.AllOf(Matcher.Scale, Matcher.ScaleAnimation, Matcher.View));
     }
 
     public void Execute() {
-        foreach (var e in _group.GetEntities()) {
+        foreach (var e in group.GetEntities()) {
         
-            if (e.scaleAnimation.active) {
+            ScaleAnimationComponent scaleAnimation = e.scaleAnimation;
+            
+            if (scaleAnimation.active) {
             
                 var scale = e.scale;
-                scale.x += e.scaleAnimation.speed * Time.deltaTime;
-                //if (scale.x < 0) scale.x = 0-scale.x;
+                scale.x += scaleAnimation.speed * Time.deltaTime;
                 
                 scale.y = scale.x;
-                if (scale.x > e.scaleAnimation.max) {
-                    scale.x = e.scaleAnimation.max;
+                if (scale.x > scaleAnimation.max) {
+                    scale.x = scaleAnimation.max;
                     scale.y = scale.x;
-                    e.scaleAnimation.active = false;
-                } else if (scale.x < e.scaleAnimation.min) {
-                    scale.x = e.scaleAnimation.min;
+                    scaleAnimation.active = false;
+                } else if (scale.x < scaleAnimation.min) {
+                    scale.x = scaleAnimation.min;
                     scale.y = scale.x;
-                    e.scaleAnimation.active = false;
+                    scaleAnimation.active = false;
                 }
                 
                 var transform = e.view.gameObject.transform;

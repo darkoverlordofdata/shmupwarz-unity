@@ -28,9 +28,9 @@ public static class PoolExtensions {
     public static Entity CreateBullet(this Pool pool, float x, float y) {
         return pool.CreateEntity()
             .AddBounds(.1f)
-            .AddVelocity(0f, 800, 0)
+            .AddVelocity(0f, 800*3, 0)
             .AddPosition(x, y, 0)
-            .AddExpires(1)
+            .AddExpires(2)
             .AddSoundEffect(EFFECT_PEW)
             .IsBullet(true)
             .AddResource(Res.Bullet);
@@ -45,7 +45,7 @@ public static class PoolExtensions {
         return pool.CreateEntity()
             .AddBounds(1)
             .AddPosition(pos.x, pos.y, pos.z)
-            .AddVelocity(0f, -40f, 0f)
+            .AddVelocity(0f, -40*3, 0f)
             .AddHealth(10, 10)
             .IsEnemy(true)
             .AddResource(Res.Enemy1);
@@ -60,7 +60,7 @@ public static class PoolExtensions {
         return pool.CreateEntity()
             .AddBounds(2)
             .AddPosition(pos.x, pos.y, pos.z)
-            .AddVelocity(0, -30, 0f)
+            .AddVelocity(0, -30*3, 0f)
             .AddHealth(20, 20)
             .IsEnemy(true)
             .AddResource(Res.Enemy2);
@@ -74,7 +74,7 @@ public static class PoolExtensions {
 
         return pool.CreateEntity()
             .AddBounds(3)
-            .AddVelocity(0, -20, 0f)
+            .AddVelocity(0, -20*3, 0f)
             .AddPosition(pos.x, pos.y, pos.z)
             .AddHealth(60, 60)
             .IsEnemy(true)
@@ -89,12 +89,12 @@ public static class PoolExtensions {
         float scale = (float)rnd.NextDouble() * .5f;
     
         return pool.CreateEntity()
-            .AddResource(Res.Particle)
             .AddExpires(1)
             .AddColorAnimation(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, -1, false, false, false, true, true)
             .AddVelocity(velocityX, velocityY, 0)
             .AddScale(scale, scale)
-            .AddPosition(x, y, 0);
+            .AddPosition(x, y, 0)
+            .AddResource(Res.Particle);
             
     
     }

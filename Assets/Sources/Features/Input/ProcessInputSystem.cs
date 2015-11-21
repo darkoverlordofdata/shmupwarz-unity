@@ -26,7 +26,7 @@ public class ProcessInputSystem : IExecuteSystem, ISetPool {
         player.position.x = mousePosition.x;
         player.position.y = mousePosition.y;
 
-        isFiring = Input.GetMouseButton(0); 
+        isFiring = Input.GetMouseButton(0) || Input.GetKey("z"); 
         _pool.isFiring = isFiring;
         if (isFiring) {
             if (timeToFire <=0) {

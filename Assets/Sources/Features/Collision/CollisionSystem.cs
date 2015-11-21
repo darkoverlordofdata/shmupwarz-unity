@@ -4,12 +4,11 @@ using System;
 using System.Collections.Generic;
 public class CollisionSystem : ISetPool, IExecuteSystem, IInitializeSystem {
 
-    Pool _pool;
-    Group _group;
+    Pool pool;
     CollisionPair[] collisionPairs;
 
     public void SetPool(Pool pool) {
-        _pool = pool;
+        this.pool = pool;
     }
 
     public void Execute() {
@@ -19,8 +18,8 @@ public class CollisionSystem : ISetPool, IExecuteSystem, IInitializeSystem {
     }
 
     public void Initialize() {
-        var bullets = _pool.GetGroup(Matcher.Bullet);
-        var enemies = _pool.GetGroup(Matcher.Enemy);
+        var bullets = pool.GetGroup(Matcher.Bullet);
+        var enemies = pool.GetGroup(Matcher.Enemy);
         collisionPairs = new CollisionPair[1];
         collisionPairs[0] = new EnemyBulletCollision(bullets, enemies);
         
@@ -37,13 +36,17 @@ class EnemyBulletCollision : CollisionPair {
         var pos = bullet.position;
         
         Pools.pool.CreateExplosion(pos.x, pos.y, .1f);
-        int i = 5;
-        while (--i > 0) Pools.pool.CreateParticle(pos.x, pos.y);
+        Shrapnel.Instance.Hit(pos.x, pos.y);
         bullet.IsDestroy(true);
-        ship.health.health -= 1;
-        if (ship.health.health <= 0) {
+        
+        HealthComponent health = ship.health;
+        
+        health.health -= 1;
+        if (health.health <= 0) {
+            Pools.pool.score.value += (int)health.maximumHealth;
             ship.IsDestroy(true);
-            Pools.pool.CreateExplosion(ship.position.x, ship.position.y, .5f);
+            PositionComponent position = ship.position;
+            Pools.pool.CreateExplosion(position.x, position.y, .5f);
         }
     } 
     
@@ -78,8 +81,11 @@ abstract class CollisionPair : CollisionHandler {
     }
     
     private bool CollisionExists(Entity e1, Entity e2) {
-        float a = e1.position.x - e2.position.x;
-        float b = e1.position.y - e2.position.y;
+        PositionComponent position1 = e1.position;
+        PositionComponent position2 = e2.position;
+        
+        float a = position1.x - position2.x;
+        float b = position1.y - position2.y;
         return (Math.Sqrt(a * a + b * b) - e1.bounds.radius) < e2.bounds.radius;
     }
 }

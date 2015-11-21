@@ -1,19 +1,27 @@
-﻿using UnityEngine;
-using Entitas;
+﻿using Entitas;
+using UnityEngine;
 using UnityEngine.UI;
 
 public class ScoreLabelController : MonoBehaviour {
-    Text _label;
+    public Text label;
+    private Pool pool;
+    private int score = 0;
 
     void Start() {
-        _label = GetComponent<Text>();
+        label = GetComponent<Text>();
 
-        var pool = Pools.pool;
-        pool.GetGroup(Matcher.Score).OnEntityAdded += (group, entity, index, component) => updateScore(entity.score.value);
+        pool = Pools.pool;
         updateScore(pool.score.value);
     }
 
+    void Update() {
+        if (score != pool.score.value) {
+            score = pool.score.value;
+            updateScore(score);
+        }
+    }
+    
     void updateScore(int score) {
-        _label.text = "Score " + score;
+        label.text = string.Format("Score: {0:0000}", score);
     }
 }

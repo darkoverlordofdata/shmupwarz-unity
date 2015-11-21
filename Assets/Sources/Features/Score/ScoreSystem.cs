@@ -7,6 +7,7 @@ using UnityEngine;
 public class ScoreSystem : IInitializeSystem, ISetPool {
 
     Pool _pool;
+    int score;
 
     public void SetPool(Pool pool) {
         _pool = pool;
@@ -14,14 +15,15 @@ public class ScoreSystem : IInitializeSystem, ISetPool {
 
     public void Initialize() {
         _pool.SetScore(0);
+        Debug.Log("Initialize Score System");
     }
 
-    /*
-    public void Execute(List<Entity> entities) {
-
-        Debug.Log("Score");
-
-        _pool.ReplaceScore(_pool.score.value + entities.Count);
-    }*/
+    public void Execute() {
+    
+        if (score != _pool.score.value) {
+            score = _pool.score.value;
+        }
+        //_pool.ReplaceScore(_pool.score.value + entities.Count);
+    }
 }
 
