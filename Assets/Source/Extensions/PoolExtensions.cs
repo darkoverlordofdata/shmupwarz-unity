@@ -82,20 +82,9 @@ public static class PoolExtensions {
     }
     
 
-    public static Entity CreateExplosion(this Pool pool, float x, float y, float scale) {
-        return pool.CreateEntity()
-            .AddSoundEffect(scale < .5 ? EFFECT_SMALLASPLODE : EFFECT_ASPLODE)
-            .AddExpires(0.5f)
-            .AddScale(scale, scale)
-            .AddScaleAnimation(scale/100, scale, -3, false, true)
-            .AddPosition(x, y, 0)
-            .AddResource(Res.Explosion);
-    }
-
     public static Entity CreateBigExplosion(this Pool pool, float x, float y) {
         float scale = 0.5f;
         return pool.CreateEntity()
-            .AddSoundEffect(scale < .5 ? EFFECT_SMALLASPLODE : EFFECT_ASPLODE)
             .AddExpires(0.5f)
             .AddScale(scale, scale)
             .AddScaleAnimation(scale/100, scale, -3, false, true)
@@ -106,7 +95,6 @@ public static class PoolExtensions {
     public static Entity CreateSmallExplosion(this Pool pool, float x, float y) {
         float scale = 0.1f;
         return pool.CreateEntity()
-            .AddSoundEffect(scale < .5 ? EFFECT_SMALLASPLODE : EFFECT_ASPLODE)
             .AddExpires(0.5f)
             .AddScale(scale, scale)
             .AddScaleAnimation(scale/100, scale, -3, false, true)
