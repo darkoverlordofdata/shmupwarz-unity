@@ -1,0 +1,91 @@
+{
+  "tables": {
+    "settings": {
+      "fields": [
+        "ID",
+        "name",
+        "value"
+      ],
+      "auto_increment": 6
+    },
+    "leaderboard": {
+      "fields": [
+        "ID",
+        "date",
+        "score"
+      ],
+      "auto_increment": 9
+    }
+  },
+  "data": {
+    "settings": {
+      "1": {
+        "ID": 1,
+        "name": "leaderboard",
+        "value": "off"
+      },
+      "2": {
+        "ID": 2,
+        "name": "player",
+        "value": ""
+      },
+      "3": {
+        "ID": 3,
+        "name": "userId",
+        "value": ""
+      },
+      "4": {
+        "ID": 4,
+        "name": "playMusic",
+        "value": "false"
+      },
+      "5": {
+        "ID": 5,
+        "name": "playSfx",
+        "value": "true"
+      }
+    },
+    "leaderboard": {
+      "1": {
+        "ID": 1,
+        "date": "20151001",
+        "score": 400
+      },
+      "2": {
+        "ID": 2,
+        "date": "20151002",
+        "score": 1850
+      },
+      "3": {
+        "ID": 3,
+        "date": "20151003",
+        "score": 980
+      },
+      "4": {
+        "ID": 4,
+        "date": "20151004",
+        "score": 1100
+      },
+      "5": {
+        "ID": 5,
+        "date": "20151007",
+        "score": 60
+      },
+      "6": {
+        "ID": 6,
+        "date": "20151027",
+        "score": 1020
+      },
+      "7": {
+        "ID": 7,
+        "date": "20151028",
+        "score": 680
+      },
+      "8": {
+        "ID": 8,
+        "date": "20151029",
+        "score": 710
+      }
+    }
+  }
+}
