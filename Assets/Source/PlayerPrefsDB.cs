@@ -14,19 +14,44 @@ using System.Text.RegularExpressions;
  * 
  * Underneath it all, the structured data is stored as serialized JSON in PlayerPrefs.
  * 
+ * Database API:
  * 
+ * AlterTable(string tableName, string newField, string defaultValue)
+ * ColumnExists(string tableName, string fieldName)
+ * Commit()
+ * CreateTable(string tableName, string fields)
+ * CreateTable(string tableName, string[] fields)
+ * CreateTableWithData(string tableName, string data)
+ * CreateTableWithData(string tableName, object[] data) 
+ * DeleteRows(string tableName, string query) 
+ * DeleteRows(string tableName, object query)
+ * Drop()
+ * DropTable(string tableName) 
+ * Insert(string tableName, string data) 
+ * Insert(string tableName, object data) 
+ * InsertOrUpdate(string tableName, object query, object data)
+ * IsNew()
+ * Query(string tableName, object query=null, int limit=-1, int start=-1, object[] sort=null, object[] distinct=null)
+ * QueryAll(string tableName, string query) 
+ * RowCount(string tableName) 
+ * Serialize() 
+ * TableCount() 
+ * TableExists(string tableName)
+ * TableFields(string tableName)
+ * Truncate(string tableName) 
+ * Update(string tableName, string query, Func<JSONObject, JSONObject> updateFunction)
+ * Update(string tableName, object query, Func<JSONObject, JSONObject> updateFunction) 
  */
 public class PlayerPrefsDB {
-	string db_id;
-	bool db_new;
-	JSONObject db;
-	Regex rx_validate_name = new Regex(@"[^A-Za-z_0-9]");
+	private string db_prefix = "db_";
+	private string db_id;
+	private bool db_new;
+	private JSONObject db;
+	private Regex rx_validate_name = new Regex(@"[^A-Za-z_0-9]");
 
 	public PlayerPrefsDB (string db_name) {
-		string db_prefix = "db_";
 		db_id = db_prefix + db_name;
 		db_new = false;
-		db = null;
 
 		if (PlayerPrefs.HasKey(db_id)) {
 			db = (JSONObject)JSON.Parse(PlayerPrefs.GetString(db_id));
@@ -453,7 +478,7 @@ public class PlayerPrefsDB {
 	 * 
 	 * ddb.Query("settings", new JSONObject() {
 	 * 	{"name", "playMusic"}
-	 * }, new JSONObject() {
+	 * }, new JSONArray() {
 	 * 	{"name", "asc"}
 	 * }, limit: 10)
 	 * 
@@ -475,7 +500,7 @@ public class PlayerPrefsDB {
 	 * @returns array of rows selected
 	 * 
 	 * 
-	 * db.Query("settings", @"{""name"": ""playMusic""}", sort:@"[{""name"": ""asc""}]", limit:10);
+	 * db.Query("settings", @"{""name"": ""playMusic""}", sort:@"[[""name"", ""asc""]]", limit:10);
 	 */
 	public JSONArray QueryAll(string tableName, string query) {
 		var args = JSON.Object(JSON.Parse(query));
@@ -600,7 +625,6 @@ public class PlayerPrefsDB {
 		tableFields(table_name).Add(new_field);
 
 		// insert default values in existing table
-		// insert default values in existing table
 		var data = JSON.Object(db["data"]);
 		var rows = JSON.Object(data[table_name]);
 		
@@ -644,7 +668,7 @@ public class PlayerPrefsDB {
 			results.Add(o);
 		}
 
-		// there are sorting params - sort: [["author", "ASC"]]
+		// there are sorting params 
 		if (sort != null) {
 			//foreach (var field in sort) {
 			for (var i=0; i<sort.Length; i++) {
