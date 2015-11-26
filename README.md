@@ -5,7 +5,7 @@ Shmup Warz using Entitas-CSharp and Unity
 A port from typescript of Shmup Warz for EntitasTS - https://github.com/darkoverlordofdata/shmupwarz
 Inspired by https://github.com/Flet/spaceship-warrior-gradle
 
-Disclaimer - this is my first unity project. This may not be the best way to do anything :)
+Disclaimer: This is my first unity project. This may not be the best way to do anything :)
 
 
 # MIT License

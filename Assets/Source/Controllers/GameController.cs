@@ -6,7 +6,8 @@ using System.Reflection;
 using System;
 using System.Text;
 using System.Text.RegularExpressions;
-using Json;
+using Bosco;
+using Bosco.Json;
 
 public class GameController : MonoBehaviour {
 

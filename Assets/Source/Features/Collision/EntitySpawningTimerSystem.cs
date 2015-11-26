@@ -1,5 +1,6 @@
 using Entitas;
 using System.Collections.Generic;
+using Bosco.Utils;
 
 class SpawnEnemy1 : Timer {
     public SpawnEnemy1(float delay, bool repeat) : base(delay, repeat) {}
