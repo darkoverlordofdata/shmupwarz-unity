@@ -2,20 +2,20 @@
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Collections.Generic;
-
+/**
+ * Port of https://github.com/douglascrockford/JSON-js to CSharp/Unity5
+ * 
+ */
 namespace Json {
 
-    public class JSONObject : Dictionary<string, object> {}
-    public class JSONArray : List<object>  {}
-    public class JsonNode {}
-
+	/** Helper classes */
+	public class JSONArray : List<object>  {}
+	public class JSONObject : Dictionary<string, object> {}
     public class JsonSyntaxError : Exception {
         public JsonSyntaxError(string message, int lineno, string source) {
 
         }
     }
-
-
 
   public class JSON {
 
@@ -75,14 +75,34 @@ namespace Json {
     static string gap;
     static string indent;
 
+	/**
+	 * JSON.Array Helper
+	 * 
+	 * @param {object} value
+	 * @returns {JSONArray} cast of value
+	 */
     public static JSONArray Array(object value) {
         return (JSONArray)value;
     }
 
-    public static JSONObject Object(object value) {
+	/**
+	 * JSON.Object Helper
+	 * 
+	 * @param {object} value
+	 * @returns {JSONObject} cast of value
+	 */
+	public static JSONObject Object(object value) {
         return (JSONObject)value;
     }
 
+	/**
+	 * Stringify
+	 * 
+	 * @param {object} value json object
+	 * @param {object} space - optional formatting spaces
+	 * @returns {string} json object encoded as a string
+	 * 
+	 */
     public static string Stringify(object value, object space=null) {
 
         // The stringify method takes a value and an optional replacer, and an optional
@@ -117,7 +137,14 @@ namespace Json {
         return Str("", root);
     }
 
-    public static object Parse(string source) {
+	/**
+	 * Parse
+	 * 
+	 * @param {string} source string encoded json object
+	 * @returns {object} decoded json object
+	 * 
+	 */
+	public static object Parse(string source) {
 
         // This is a function that can parse a JSON text, producing a JavaScript
         // data structure. It is a simple, recursive descent parser. It does not use
@@ -139,8 +166,6 @@ namespace Json {
         return result;
 
     }
-
-
 
     static string Quote(string str) {
         // If the string contains no control characters, no quote characters, and no

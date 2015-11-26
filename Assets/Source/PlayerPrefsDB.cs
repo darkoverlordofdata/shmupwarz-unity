@@ -3,7 +3,19 @@ using Json;
 using UnityEngine;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
-
+/**
+ * A spork of https://github.com/knadh/localStorageDB to CSharp/Unity5
+ * 
+ * PlayerPrefsDB 0.0.1
+ * 
+ * PlayerPrefsDB is a simple layer over PlayerPrefs that provides a set of functions to store
+ * structured data like databases and tables. It provides basic insert/update/delete/query
+ * capabilities. 
+ * 
+ * Underneath it all, the structured data is stored as serialized JSON in PlayerPrefs.
+ * 
+ * 
+ */
 public class PlayerPrefsDB {
 	string db_id;
 	bool db_new;
@@ -274,7 +286,6 @@ public class PlayerPrefsDB {
 		truncate(tableName);
 	}
 	
-	// alter a table
 	/**
 	 * Alter a Table
 	 * 
@@ -477,12 +488,6 @@ public class PlayerPrefsDB {
 				 args.ContainsKey("start") ? (int)args["start"] : -1,
 			     args.ContainsKey("sort") ? (object[])args["sort"] : null,
 			     args.ContainsKey("distinct") ? (object[])args["distinct"] : null
-			             /*
-				args.ContainsKey("query") ? args["query"] : null,
-				args.ContainsKey("limit") ? args["limit"] : -1,
-				args.ContainsKey("start") ? args["start"] : -1,
-				args.ContainsKey("sort") ? (object[])args["sort"] : null,
-				args.ContainsKey("distinct") ? (object[])args["distinct"] : null*/
 			);
 		}
 	}
@@ -639,25 +644,25 @@ public class PlayerPrefsDB {
 			results.Add(o);
 		}
 
-		// there are sorting params
+		// there are sorting params - sort: [["author", "ASC"]]
 		if (sort != null) {
+			//foreach (var field in sort) {
 			for (var i=0; i<sort.Length; i++) {
-				foreach (var field in JSON.Object(sort[i])) {
+				var field = JSON.Array(sort[i]);
 
-					results.Sort(delegate(object o1, object o2){
+				results.Sort(delegate(object o1, object o2){
 
-						var field1 = JSON.Object(o1)[field.Key];
-						var field2 = JSON.Object(o2)[field.Key];
+					var field1 = JSON.Object(o1)[field[0].ToString()];
+					var field2 = JSON.Object(o2)[field[0].ToString()];
 
-						if (field1 is String) {
-							return ((string)(field1)).CompareTo(field2)*(field.Value == "desc" ? -1 : 1);
-						} else if (field1 is Boolean) {
-							return ((bool)(field1)).CompareTo(field2)*(field.Value == "desc" ? -1 : 1);
-						} else {
-							return ((float)(field1)).CompareTo(field2)*(field.Value == "desc" ? -1 : 1);
-						}
-					});
-				}
+					if (field1 is String) {
+						return ((string)(field1)).CompareTo(field2)*(field[1].ToString() == "DESC" ? -1 : 1);
+					} else if (field1 is Boolean) {
+						return ((bool)(field1)).CompareTo(field2)*(field[1].ToString() == "DESC" ? -1 : 1);
+					} else {
+						return ((float)(field1)).CompareTo(field2)*(field[1].ToString() == "DESC" ? -1 : 1);
+					}
+				});
 			}
 		}
 
