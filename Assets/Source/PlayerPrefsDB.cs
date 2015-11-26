@@ -367,14 +367,14 @@ public class PlayerPrefsDB {
 
 		// no existing records matched, so insert a new row
 		if (resultIds.Count == 0) {
-			insert(tableName, validateData(tableName, data));
+			insert(tableName, validateData(tableName, JSON.Object (data)));
 			return 1;
 		} else {
 			var ids = new List<int>();
 			for (var n=0; n<resultIds.Count; n++) {
 				update(tableName, resultIds, (JSONObject row) => {
-					ids.Add(row["ID"]);
-					return data;
+					ids.Add(Convert.ToInt32(row["ID"]));
+					return JSON.Object(data);
 				});
 			}
 			return ids.Count;
@@ -464,12 +464,27 @@ public class PlayerPrefsDB {
 	 * @returns array of rows selected
 	 * 
 	 * 
-	 * db.Query("settings", @"{""name"": ""playMusic""}", sort:@"{""name"": ""asc""}", limit:10);
+	 * db.Query("settings", @"{""name"": ""playMusic""}", sort:@"[{""name"": ""asc""}]", limit:10);
 	 */
 	public JSONArray QueryAll(string tableName, string query) {
-		var args = JSON.Parse(query);
-		
-		return null;
+		var args = JSON.Object(JSON.Parse(query));
+		if (args.Count == 0) {
+			return Query(tableName);
+		} else {
+			return Query(tableName, 
+			     args.ContainsKey("query") ? args["query"] : null,
+				 args.ContainsKey("limit") ? (int)args["limit"] : -1,
+				 args.ContainsKey("start") ? (int)args["start"] : -1,
+			     args.ContainsKey("sort") ? (object[])args["sort"] : null,
+			     args.ContainsKey("distinct") ? (object[])args["distinct"] : null
+			             /*
+				args.ContainsKey("query") ? args["query"] : null,
+				args.ContainsKey("limit") ? args["limit"] : -1,
+				args.ContainsKey("start") ? args["start"] : -1,
+				args.ContainsKey("sort") ? (object[])args["sort"] : null,
+				args.ContainsKey("distinct") ? (object[])args["distinct"] : null*/
+			);
+		}
 	}
 	
 	
@@ -580,7 +595,7 @@ public class PlayerPrefsDB {
 		tableFields(table_name).Add(new_field);
 
 		// insert default values in existing table
-		// todo: insert default values in existing table
+		// insert default values in existing table
 		var data = JSON.Object(db["data"]);
 		var rows = JSON.Object(data[table_name]);
 		
@@ -627,7 +642,22 @@ public class PlayerPrefsDB {
 		// there are sorting params
 		if (sort != null) {
 			for (var i=0; i<sort.Length; i++) {
-				results.Sort();
+				foreach (var field in JSON.Object(sort[i])) {
+
+					results.Sort(delegate(object o1, object o2){
+
+						var field1 = JSON.Object(o1)[field.Key];
+						var field2 = JSON.Object(o2)[field.Key];
+
+						if (field1 is String) {
+							return ((string)(field1)).CompareTo(field2)*(field.Value == "desc" ? -1 : 1);
+						} else if (field1 is Boolean) {
+							return ((bool)(field1)).CompareTo(field2)*(field.Value == "desc" ? -1 : 1);
+						} else {
+							return ((float)(field1)).CompareTo(field2)*(field.Value == "desc" ? -1 : 1);
+						}
+					});
+				}
 			}
 		}
 
@@ -658,11 +688,6 @@ public class PlayerPrefsDB {
 		}
 		return results;
 
-
-	}
-
-	// TODO: sort a result set
-	private void sortResults(string field, string order) {
 
 	}
 
