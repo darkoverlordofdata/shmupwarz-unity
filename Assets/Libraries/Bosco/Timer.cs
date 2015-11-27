@@ -1,3 +1,17 @@
+/**
+ *--------------------------------------------------------------------+
+ * Timer.cs
+ *--------------------------------------------------------------------+
+ * Copyright DarkOverlordOfData (c) 2015
+ *--------------------------------------------------------------------+
+ *
+ * This file is a part of Bosco
+ *
+ * Bosco is free software; you can copy, modify, and distribute
+ * it under the terms of the MIT License
+ *
+ *--------------------------------------------------------------------+
+ */
 using UnityEngine;
 
 namespace Bosco.Utils {

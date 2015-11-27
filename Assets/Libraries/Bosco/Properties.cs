@@ -1,3 +1,17 @@
+/**
+ *--------------------------------------------------------------------+
+ * Properties.cs
+ *--------------------------------------------------------------------+
+ * Copyright DarkOverlordOfData (c) 2015
+ *--------------------------------------------------------------------+
+ *
+ * This file is a part of Bosco
+ *
+ * Bosco is free software; you can copy, modify, and distribute
+ * it under the terms of the MIT License
+ *
+ *--------------------------------------------------------------------+
+ */
 using System;
 using Bosco.Json;
 namespace Bosco {
@@ -67,11 +81,11 @@ namespace Bosco {
 			var yyyy = today.Year.ToString();
 			var yyyymmdd = yyyy+mm+dd;
 		
-			var jsonQueryAll = string.Format(@"{""query"":{""date"": ""{0}""}}", yyyymmdd);
-			var jsonInsert = string.Format(@"{""date"": ""{0}}, ""score"":{1}}", yyyymmdd, score);
-			var jsonUpdate = string.Format(@"{""date"":""{0}", yyyymmdd);
+			var jsonQuery  = string.Format(@"{""query"":{""date"": ""{0}""}}", yyyymmdd);
+			var jsonInsert = string.Format(@"{""date"": ""{0}"", ""score"":{1}}", yyyymmdd, score);
+			var jsonUpdate = string.Format(@"{""date"": ""{0}""}", yyyymmdd);
 			
-			if (0 == db.QueryAll("leaderboard", jsonQueryAll).Count) {
+			if (0 == db.QueryAll("leaderboard", jsonQuery).Count) {
 				db.Insert("leaderboard", jsonInsert);
 			} else {
 				db.Update("leaderboard", jsonUpdate,  (JSONObject row) => {

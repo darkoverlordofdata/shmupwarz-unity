@@ -1,4 +1,18 @@
-﻿using System;
+﻿/**
+ *--------------------------------------------------------------------+
+ * PlayerPrefsDB.cs
+ *--------------------------------------------------------------------+
+ * Copyright DarkOverlordOfData (c) 2015
+ *--------------------------------------------------------------------+
+ *
+ * This file is a part of Bosco
+ *
+ * Bosco is free software; you can copy, modify, and distribute
+ * it under the terms of the MIT License
+ *
+ *--------------------------------------------------------------------+
+ */
+using System;
 using Bosco.Json;
 using UnityEngine;
 using System.Collections.Generic;
