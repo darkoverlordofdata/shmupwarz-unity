@@ -30,8 +30,8 @@ public class ProcessInputSystem : IExecuteSystem, ISetPool {
         pool.isFiring = isFiring;
         if (isFiring) {
             if (timeToFire <=0) {
-                pool.CreateBullet(mousePosition.x+.6f, mousePosition.y);
-                pool.CreateBullet(mousePosition.x-.6f, mousePosition.y);
+                pool.CreateBullet(mousePosition.x+1f, mousePosition.y);
+                pool.CreateBullet(mousePosition.x-1f, mousePosition.y);
                 timeToFire = .1f;
             }
         }

@@ -14,6 +14,7 @@
  */
 using System;
 using Bosco.Json;
+using UnityEngine;
 namespace Bosco {
 	public class Properties
 	{
@@ -30,7 +31,7 @@ namespace Bosco {
 		public static void Init(string name, string properties) {
 	
 			if (db != null) return;
-			db = new PlayerPrefsDB("shmupwarz");
+			db = new PlayerPrefsDB(name);
 			if (db.IsNew()) {
 				db.CreateTableWithData("settings", properties);
 				db.CreateTable("leaderboard", @"[""date"", ""score""]");

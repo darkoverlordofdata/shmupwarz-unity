@@ -72,6 +72,7 @@ namespace Bosco {
 	
 			if (PlayerPrefs.HasKey(db_id)) {
 				db = (JSONObject)JSON.Parse(PlayerPrefs.GetString(db_id));
+				Debug.Log("PlayerPrefsDB: "+PlayerPrefs.GetString(db_id));
 			} else {
 				db = (JSONObject)JSON.Parse(@"{""tables"": {}, ""data"": {}}");
 				Commit();

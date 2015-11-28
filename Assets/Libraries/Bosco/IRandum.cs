@@ -17,7 +17,7 @@ namespace Bosco.Utils {
 	public interface IRandum {
 		bool NextBool();
 		double NextDouble();
-		long NextInt(long max);
+		int NextInt(int max);
 	}
 
 }

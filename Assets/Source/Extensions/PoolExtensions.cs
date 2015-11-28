@@ -1,6 +1,7 @@
 ﻿using System;
 using Entitas;
 using UnityEngine;
+using Bosco.Utils;
 
 public static class PoolExtensions {
 
@@ -11,7 +12,6 @@ public static class PoolExtensions {
     
     static System.Random rnd = new System.Random();
 
-    
     public static Entity CreatePlayer(this Pool pool) {
 
         Vector3 pos = Camera.main.ScreenToWorldPoint(new Vector3(Screen.width/2, 100, 0));
@@ -48,7 +48,7 @@ public static class PoolExtensions {
             .AddVelocity(0f, -40*3, 0f)
             .AddHealth(10, 10)
             .IsEnemy(true)
-            .AddResource(Res.Enemy1);
+			.AddResource(Res.Enemy1);
     }
 
     public static Entity CreateEnemy2(this Pool pool) {

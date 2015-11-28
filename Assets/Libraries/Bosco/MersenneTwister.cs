@@ -19,27 +19,30 @@
  *
  */
 using System;
+using UnityEngine;
 namespace Bosco.Utils {
 	public class MersenneTwister : IRandum {
 
-		private static long N = 624;
-		private static long M = 397;
-		private static long MATRIX_A = -1727483681;
-		private static long UPPER_MASK = -2147483648;
+		private static int N = 624;
+		private static int M = 397;
+		private static int MATRIX_A = -1727483681;
+		private static int UPPER_MASK = -2147483648;
 		private static int LOWER_MASK = 2147483647;
 
-		public long[] mt;
-		public long mti = N+1;
+		public int[] mt = new int[N];
+		public int mti = N+1;
 
-		public MersenneTwister (long seed) {
-			if (seed == -1) {
-				// time since epoch: 1/1/1970
-				seed = ((new DateTime()).ToUniversalTime().Ticks - 621355968000000000) / 10000000;
-			}
+		public MersenneTwister(int seed) {
+			Debug.Log("seed = "+seed);
 			init_genrand(seed);
-
 		}
 
+		public MersenneTwister(int[] init_key, int key_length) {
+			init_by_array(init_key, key_length);
+		}
+
+		public MersenneTwister() : this((int)((DateTime.UtcNow - new DateTime(1970, 1, 1)).TotalMilliseconds*100) & LOWER_MASK) {}
+		
 		/*
 	     * Generates a random boolean value.
 	    */
@@ -57,12 +60,12 @@ namespace Bosco.Utils {
 		/*
 	     * Generates a random int value from 0, inclusive, to max, exclusive.
 	    */
-		public long NextInt(long max) {
-			return (long)Math.Abs(genrand_res53() * max);
+		public int NextInt(int max) {
+			return (int)Math.Abs(genrand_res53() * (max*2));
 		}
 
 
-		public void init_genrand(long s) {
+		public void init_genrand(int s) {
 			mt[0] = s & -1;
 			mti = 1;
 			while (mti < N) {
@@ -83,7 +86,7 @@ namespace Bosco.Utils {
 		}
 
 		public void init_by_array(int[] init_key, int key_length) {
-			long i, j, k;
+			int i, j, k;
 			init_genrand(19650218);
 			i = 1;
 			j = 0;
@@ -118,9 +121,10 @@ namespace Bosco.Utils {
 
 		}
 
-		public long genrand_int32() {
-			long kk, y;
-			var mag01 = new long[]{0, MATRIX_A};
+		public int genrand_int32() {
+			int kk;
+			int y;
+			var mag01 = new int[]{0, MATRIX_A};
 
 			if (mti >= N) {
 				if (mti == N + 1) {
@@ -158,7 +162,7 @@ namespace Bosco.Utils {
 		/*
 	    * generates a random number on [0,0x7fffffff]-interval
 	    */
-		public long genrand_int31() {
+		public int genrand_int31() {
 			return genrand_int32() >> 1;
 		}
 		
@@ -187,7 +191,7 @@ namespace Bosco.Utils {
 	     * generates a random number on [0,1] 53-bit resolution
 	    */
 		public double genrand_res53() {
-			long a, b;
+			int a, b;
 			a = genrand_int32() >> 5;
 			b = genrand_int32() >> 6;
 			return (a * 67108864.0 + b) * 1.11022302462515654e-16;
