@@ -10,19 +10,22 @@ public static class ComponentIds {
     public const int Health = 8;
     public const int Input = 9;
     public const int Interactive = 10;
-    public const int Movable = 11;
-    public const int ParallaxStar = 12;
-    public const int Player = 13;
-    public const int Position = 14;
-    public const int Resource = 15;
-    public const int ScaleAnimation = 16;
-    public const int Scale = 17;
-    public const int Score = 18;
-    public const int SoundEffect = 19;
-    public const int Velocity = 20;
-    public const int View = 21;
+    public const int Life = 11;
+    public const int Mine = 12;
+    public const int Movable = 13;
+    public const int ParallaxStar = 14;
+    public const int Player = 15;
+    public const int Position = 16;
+    public const int Resource = 17;
+    public const int ScaleAnimation = 18;
+    public const int Scale = 19;
+    public const int Score = 20;
+    public const int SoundEffect = 21;
+    public const int Status = 22;
+    public const int Velocity = 23;
+    public const int View = 24;
 
-    public const int TotalComponents = 22;
+    public const int TotalComponents = 25;
 
     static readonly string[] _components = {
         "Background",
@@ -36,6 +39,8 @@ public static class ComponentIds {
         "Health",
         "Input",
         "Interactive",
+        "Life",
+        "Mine",
         "Movable",
         "ParallaxStar",
         "Player",
@@ -45,6 +50,7 @@ public static class ComponentIds {
         "Scale",
         "Score",
         "SoundEffect",
+        "Status",
         "Velocity",
         "View"
     };

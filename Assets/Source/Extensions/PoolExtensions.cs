@@ -36,6 +36,18 @@ public static class PoolExtensions {
             .AddResource(Res.Bullet);
     }
 
+	public static Entity CreateMine(this Pool pool, int health, float x, float y, float velocity, float radius) {
+		Vector3 pos = Camera.main.ScreenToWorldPoint(new Vector3(x, Screen.height-y, 0));
+		
+		return pool.CreateEntity()
+			.AddBounds(radius)
+				.AddVelocity(0f, -velocity, 0f)
+				.AddPosition(pos.x, pos.y, pos.z)
+				.AddHealth(health*10, health*10)
+				.IsMine(true)
+				.AddResource(Res.Mine+health);
+	}
+
     public static Entity CreateEnemy1(this Pool pool) {
         int x = rnd.Next(Screen.width);
         int y = Screen.height-100;

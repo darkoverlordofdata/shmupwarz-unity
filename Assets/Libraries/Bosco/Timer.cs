@@ -31,8 +31,12 @@ namespace Bosco.Utils {
 		}
 		
 		public void Update() {
+			Update (Time.deltaTime);
+		}
+		
+		public void Update(float delta) {
 			if (!done && !stopped) {
-				acc += Time.deltaTime;
+				acc += delta;
 			}
 			if (acc >= delay) {
 				acc -= delay;
