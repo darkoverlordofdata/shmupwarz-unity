@@ -70,7 +70,7 @@ public class GameController : MonoBehaviour {
             .Add(pool.CreateSystem<RemoveViewSystem>())
             .Add(pool.CreateSystem<AddViewSystem>())
             .Add(pool.CreateSystem<RenderPositionSystem>())
-			.Add(pool.CreateSystem<HealthRenderSystem>())
+			//.Add(pool.CreateSystem<HealthRenderSystem>())
 
             // Destroy
             .Add(pool.CreateSystem<RemoveOffscreenShipsSystem>())

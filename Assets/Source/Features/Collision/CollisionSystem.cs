@@ -47,7 +47,14 @@ class EnemyBulletCollision : CollisionPair {
             ship.IsDestroy(true);
             PositionComponent position = ship.position;
             Pools.pool.CreateBigExplosion(position.x, position.y);
-        }
+		} else {
+			if (ship.hasView) {
+				GameObject o = ship.view.gameObject;
+				var text = (TextMesh)o.GetComponent("TextMesh");
+				var percentage = (int)Math.Round(health.health / health.maximumHealth * 100);
+				text.text = percentage+"%";
+			}
+		}
     } 
     
 }
