@@ -17,7 +17,7 @@ public static class PoolExtensions {
         Vector3 pos = Camera.main.ScreenToWorldPoint(new Vector3(Screen.width/2, 100, 0));
         
         return pool.CreateEntity()
-            .AddBounds(4)
+            .AddBounds(1)
             .AddHealth(100, 100)
             .AddPosition(pos.x, pos.y, pos.z)
             .IsPlayer(true)
@@ -36,16 +36,40 @@ public static class PoolExtensions {
             .AddResource(Res.Bullet);
     }
 
-	public static Entity CreateMine(this Pool pool, int health, float x, float y, float velocity, float radius) {
+	public static Entity CreateMine(this Pool pool, int health, float x, float y, float velocity) {
 		Vector3 pos = Camera.main.ScreenToWorldPoint(new Vector3(x, Screen.height-y, 0));
 		
 		return pool.CreateEntity()
-			.AddBounds(radius)
-				.AddVelocity(0f, -velocity, 0f)
+			.AddBounds(.25f)
+			.AddVelocity(0f, -velocity, 0f)
+			.AddPosition(pos.x, pos.y, pos.z)
+			.AddHealth(health*10, health*10)
+			.IsMine(true)
+			.AddResource(Res.Mine+health);
+	}
+
+	public static Entity CreateLife(this Pool pool, int ordinal) {
+		var x = (Screen.width/2)-((ordinal+1) * 40)+87;
+		var y = 80;
+		Vector3 pos = Camera.main.ScreenToWorldPoint(new Vector3(x, Screen.height-y, 0));
+
+		return pool.CreateEntity()
 				.AddPosition(pos.x, pos.y, pos.z)
-				.AddHealth(health*10, health*10)
-				.IsMine(true)
-				.AddResource(Res.Mine+health);
+				.AddLife(ordinal)
+				.AddResource(Res.Life);
+
+	}
+
+	public static Entity CreateStatus(this Pool pool) {
+		var x = (Screen.width/2);
+		var y = 120;
+		Vector3 pos = Camera.main.ScreenToWorldPoint(new Vector3(x, Screen.height-y, 0));
+
+		return pool.SetStatus(100, 0)
+			.AddPosition(pos.x, pos.y, pos.z)
+			.AddResource(Res.Status);
+
+
 	}
 
     public static Entity CreateEnemy1(this Pool pool) {
@@ -94,7 +118,17 @@ public static class PoolExtensions {
     }
     
 
-    public static Entity CreateBigExplosion(this Pool pool, float x, float y) {
+	public static Entity CreateHugeExplosion(this Pool pool, float x, float y) {
+		float scale = 1;
+		return pool.CreateEntity()
+			.AddExpires(0.5f)
+				.AddScale(scale, scale)
+				.AddScaleAnimation(scale/100, scale, -3, false, true)
+				.AddPosition(x, y, 0)
+				.AddResource(Res.BigExplosion);
+	}
+	
+	public static Entity CreateBigExplosion(this Pool pool, float x, float y) {
         float scale = 0.5f;
         return pool.CreateEntity()
             .AddExpires(0.5f)

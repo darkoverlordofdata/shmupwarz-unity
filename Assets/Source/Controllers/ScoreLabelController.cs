@@ -22,6 +22,6 @@ public class ScoreLabelController : MonoBehaviour {
     }
     
     void updateScore(int score) {
-        label.text = string.Format("Score: {0:0000}", score);
+        label.text = string.Format("{0:0000}", score);
     }
 }

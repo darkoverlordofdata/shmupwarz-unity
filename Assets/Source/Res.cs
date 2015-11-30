@@ -15,5 +15,6 @@
     public const string Life            = "life";
     public const string Red             = "status_red";
     public const string Yellow          = "yellow";
+	public const string Status			= "status";
 
 }

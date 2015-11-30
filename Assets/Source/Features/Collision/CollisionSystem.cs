@@ -9,7 +9,8 @@ public class CollisionSystem : ISetPool, IExecuteSystem, IInitializeSystem {
 
     public void SetPool(Pool pool) {
         this.pool = pool;
-    }
+		pool.SetStatus(100, 0);
+	}
 
     public void Execute() {
         foreach (var pair in collisionPairs) {
@@ -18,11 +19,15 @@ public class CollisionSystem : ISetPool, IExecuteSystem, IInitializeSystem {
     }
 
     public void Initialize() {
+
         var bullets = pool.GetGroup(Matcher.Bullet);
         var enemies = pool.GetGroup(Matcher.Enemy);
-        collisionPairs = new CollisionPair[1];
+		var player = pool.GetGroup(Matcher.Player);
+		var mines = pool.GetGroup(Matcher.Mine);
+		collisionPairs = new CollisionPair[2];
         collisionPairs[0] = new EnemyBulletCollision(bullets, enemies);
-        
+		collisionPairs[1] = new PlayerMineCollision(mines, player);
+
     }
 
 }
@@ -58,6 +63,58 @@ class EnemyBulletCollision : CollisionPair {
     } 
     
 }
+
+class PlayerMineCollision : CollisionPair {
+
+	GameObject statusBar;
+	GameObject[] lives = new GameObject[3];
+	int lifeCounter;
+
+	public PlayerMineCollision(Group mines, Group player) : base(mines, player) {
+		statusBar = GameObject.Find("Status/display");
+		for (var life=0; life<3; life++) {
+			lives[life] = GameObject.Find("Lives/life"+(life+1));
+		}
+		lifeCounter = 3;
+
+	}
+	
+	public override void HandleCollision(Entity mine, Entity player) {
+		
+		mine.IsDestroy(true);
+		var status = Pools.pool.status;
+		if (status.immunity > 0) {
+			status.immunity -= 1;
+			if (status.immunity <= 0) {
+				//TODO: reset sprite display to normal
+			}
+			return;
+		}
+
+		player.health.health -= mine.health.health;
+		if (player.health.health > 0) {
+			var pc = player.health.health / player.health.maximumHealth;
+			var scale = statusBar.transform.localScale;
+			statusBar.transform.localScale = new Vector3(pc, scale.y, scale.z);
+
+		} else {
+			//player.IsDestroy(true);
+			Pools.pool.CreateHugeExplosion(player.position.x, player.position.y);
+			lifeCounter--;
+			if (lifeCounter < 0) {
+				//TODO: game over!
+				GameObject gameOver = GameObject.Find("Canvas/GameOver");
+				gameOver.transform.localScale = new Vector3(1, 1, 1);
+
+			} else {
+				lives[lifeCounter].SetActive(false);
+				statusBar.transform.localScale = new Vector3(1, 1, 1);
+				player.health.health = player.health.maximumHealth;
+			}
+		}
+	}
+}
+
 interface CollisionHandler {
     void HandleCollision(Entity a, Entity b);
 }

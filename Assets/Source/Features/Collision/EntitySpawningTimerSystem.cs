@@ -43,12 +43,12 @@ class SpawnMinez : Timer {
 		var v = Math.Max((int)(rnd.NextDouble()*500), 300);
 		var x = offset+pos[zone][0];
 		var y = pos[zone][1];
-		Pools.pool.CreateMine(m, x, y, v, 10);
+		Pools.pool.CreateMine(m, x, y, v);
 	}
 }
 public class EntitySpawningTimerSystem : ISetPool, IExecuteSystem, IInitializeSystem {
 
-	static System.Random rnd = new System.Random();
+	//static System.Random rnd = new System.Random();
 	Pool _pool;
     private Timer timer1;
     private Timer timer2;
@@ -61,10 +61,12 @@ public class EntitySpawningTimerSystem : ISetPool, IExecuteSystem, IInitializeSy
     }
 
     public void Execute() {
+		/*
 		var r = rnd.NextDouble();
 		if (r < .5) r = 1-r;
 		float delta = (float)(r*Time.deltaTime);
-
+		*/
+		float delta = Time.deltaTime;
 		timer1.Update(delta);
 		timer2.Update(delta);
 		timer3.Update(delta);

@@ -24,7 +24,7 @@ public class ProcessInputSystem : IExecuteSystem, ISetPool {
         
         Entity player = group.GetSingleEntity();
         player.position.x = mousePosition.x;
-        player.position.y = mousePosition.y;
+        player.position.y = mousePosition.y+1;
 
         isFiring = Input.GetMouseButton(0) || Input.GetKey("z"); 
         pool.isFiring = isFiring;
