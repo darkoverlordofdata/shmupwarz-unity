@@ -18,10 +18,11 @@ obj
 *.userprefs
 test-results
 
-# Custom
-Match One-csharp.sln
-Match One.sln
 
 bin
 !bin/Entitas.zip
-/webgl/nbproject/private/
+node_modules
+.publish
+/.publish
+web
+

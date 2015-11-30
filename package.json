@@ -1,0 +1,31 @@
+{
+  "name": "shmupwarz-unity",
+  "version": "1.0.0",
+  "description": "Unity version of shmupwarz",
+  "main": "gulpfile.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/darkoverlordofdata/shmupwarz-unity.git"
+  },
+  "keywords": [
+    "unity"
+  ],
+  "author": "darkoverlordofdata@gmail.com",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/darkoverlordofdata/shmupwarz-unity/issues"
+  },
+  "homepage": "https://github.com/darkoverlordofdata/shmupwarz-unity",
+  "devDependencies": {
+    "gulp": "^3.9.0",
+    "gulp-gh-pages": "^0.5.2",
+    "gulp-manifest": "0.0.7",
+    "gulp-shell": "^0.4.2",
+    "gulp-webserver": "^0.9.1",
+    "morgan": "^1.6.1"
+  },
+  "dependencies": {}
+}
