@@ -7,4 +7,16 @@ public class UIManagerScript : MonoBehaviour {
 		Application.LoadLevel("Game Scene");
 	}
 
+	public void LoadLeaderboard() {
+		Application.LoadLevel("LeaderboardScene");
+	}
+
+	public void LoadCredits() {
+		Application.LoadLevel("CreditsScene");
+	}
+	
+	public void LoadMenu() {
+		Application.LoadLevel("MenuScene");
+	}
+
 }

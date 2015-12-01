@@ -112,7 +112,7 @@ public static class PoolExtensions {
             .AddBounds(3)
             .AddVelocity(0, -20*3, 0f)
             .AddPosition(pos.x, pos.y, pos.z)
-            .AddHealth(60, 60)
+            .AddHealth(40, 40)
             .IsEnemy(true)
             .AddResource(Res.Enemy3);
     }

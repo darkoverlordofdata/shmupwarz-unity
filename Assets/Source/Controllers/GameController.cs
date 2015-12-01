@@ -43,6 +43,7 @@ public class GameController : MonoBehaviour {
     }
 
     void Update() {
+		if (_systems == null) Start();
         _systems.Execute();
     }
 

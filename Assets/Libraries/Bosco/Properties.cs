@@ -78,17 +78,26 @@ namespace Bosco {
 	
 			DateTime today = DateTime.Today;
 			var mm = today.Month.ToString();
+			Debug.Log("mm = "+mm);
 			var dd = today.Day.ToString();
+			Debug.Log("dd = "+dd);
 			var yyyy = today.Year.ToString();
+			Debug.Log("yyyy = "+yyyy);
 			var yyyymmdd = yyyy+mm+dd;
-		
-			var jsonQuery  = string.Format(@"{""query"":{""date"": ""{0}""}}", yyyymmdd);
-			var jsonInsert = string.Format(@"{""date"": ""{0}"", ""score"":{1}}", yyyymmdd, score);
-			var jsonUpdate = string.Format(@"{""date"": ""{0}""}", yyyymmdd);
-			
+			Debug.Log("yyyymmdd = "+yyyymmdd);
+
+			var jsonQuery = string.Format(@"{{""query"":{{""date"": ""{0}""}}}}", yyyymmdd);
+			Debug.Log("jsonQuery = "+jsonQuery);
+			var jsonInsert = string.Format(@"{{""date"": ""{0}"", ""score"":{1}}}", yyyymmdd, score);
+			Debug.Log("jsonInsert = "+jsonInsert);
+			var jsonUpdate = string.Format(@"{{""date"": ""{0}""}}", yyyymmdd);
+			Debug.Log("jsonUpdate = "+jsonUpdate);
+
 			if (0 == db.QueryAll("leaderboard", jsonQuery).Count) {
+				Debug.Log("Insert score");
 				db.Insert("leaderboard", jsonInsert);
 			} else {
+				Debug.Log("Update score");
 				db.Update("leaderboard", jsonUpdate,  (JSONObject row) => {
 					if (score > (int)row["score"]) {
 						row["score"] = score;

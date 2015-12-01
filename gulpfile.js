@@ -7,7 +7,7 @@ var shell = require('gulp-shell');
 
 gulp.task('publish', function() {
   var ghPages = require('gulp-gh-pages');
-  return gulp.src('./web/**/*')
+  return gulp.src('./build/web/**/*')
     .pipe(ghPages());
 });
 
