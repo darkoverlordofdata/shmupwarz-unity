@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using Bosco;
 using Bosco.Utils;
+
 public class CollisionSystem : ISetPool, IExecuteSystem, IInitializeSystem {
 
     Pool pool;
@@ -19,8 +20,6 @@ public class CollisionSystem : ISetPool, IExecuteSystem, IInitializeSystem {
 
 	static int POWERUP_BONUS = 500;
 	static int POWERUP_IMMUNITY = 2;
-	static int NORMAL = 1;
-	static int POWERUP = 2;
 
 	
     public void SetPool(Pool pool) {
@@ -42,7 +41,7 @@ public class CollisionSystem : ISetPool, IExecuteSystem, IInitializeSystem {
 					pool.score.value += POWERUP_BONUS;
 					pool.status.immunity = POWERUP_IMMUNITY;
 					GameObject gameObject = player.GetEntities()[0].view.gameObject;
-					gameObject.GetComponent<SpriteRenderer>().sprite = (Sprite)playerSprites[POWERUP];
+					gameObject.GetComponent<SpriteRenderer>().sprite = (Sprite)playerSprites[2];
 				}
 			}
 		} else {

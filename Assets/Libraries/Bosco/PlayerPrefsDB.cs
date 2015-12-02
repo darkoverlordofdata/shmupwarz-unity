@@ -72,7 +72,6 @@ namespace Bosco {
 	
 			if (PlayerPrefs.HasKey(db_id)) {
 				db = (JSONObject)JSON.Parse(PlayerPrefs.GetString(db_id));
-				Debug.Log("PlayerPrefsDB: "+PlayerPrefs.GetString(db_id));
 			} else {
 				db = (JSONObject)JSON.Parse(@"{""tables"": {}, ""data"": {}}");
 				Commit();
@@ -526,12 +525,12 @@ namespace Bosco {
 				return Query(tableName);
 			} else {
 				return Query(tableName, 
-					args.ContainsKey("query") ? args["query"] : null,
-					args.ContainsKey("limit") ? (int)args["limit"] : -1,
-					args.ContainsKey("start") ? (int)args["start"] : -1,
+				    args.ContainsKey("query") ? args["query"] : null, 1);/*,
+				    args.ContainsKey("limit") ? Convert.ToInt32(args["limit"]) : -1),
+				    args.ContainsKey("start") ? Convert.ToInt32(args["start"]) : -1,
 					args.ContainsKey("sort") ? (object[])args["sort"] : null,
 					args.ContainsKey("distinct") ? (object[])args["distinct"] : null
-				);
+				);*/
 			}
 		}
 		
@@ -681,8 +680,8 @@ namespace Bosco {
 			for (var i=0; i<ids.Count; i++) {
 				id = ids[i];
 				var data = JSON.Object(db["data"]);
-				var o1 = JSON.Array(data[table_name]);
-				var o = clone(JSON.Object(o1[id]));
+				var o1 = JSON.Object(data[table_name]);
+				var o = clone(JSON.Object(o1[""+id]));
 				results.Add(o);
 			}
 	
@@ -727,11 +726,20 @@ namespace Bosco {
 	
 			// limit and offset
 			if (start != -1 && limit != -1) {
-				results = JSON.Array(results.GetRange(start, limit));
+				JSONArray res = new JSONArray();
+				for (var k=start; k<Math.Min(results.Count, limit); k++) 
+					res.Add(results[k]);
+				return res;
 			} else if (start != -1) {
-				results = JSON.Array(results.GetRange(start, results.Count));
+				JSONArray res = new JSONArray();
+				for (var k=start; k<results.Count; k++) 
+					res.Add(results[k]);
+				return res;
 			} else if (limit != -1) {
-				results = JSON.Array(results.GetRange(0, limit));
+				JSONArray res = new JSONArray();
+				for (var k=0; k<Math.Min(results.Count, limit); k++) 
+					res.Add(results[k]);
+				return res;
 			}
 			return results;
 	
@@ -774,10 +782,10 @@ namespace Bosco {
 			var data = JSON.Object(db["data"]);
 			var rows = JSON.Object(data[table_name]);
 	
-			for (var id=0; id<rows.Count; id++) {
+			for (var id=1; id<=rows.Count; id++) {
 				var row = JSON.Object(rows[""+id]);
 				if (row.ContainsKey("ID")) {
-					if ((int)row["ID"] == id) {
+					if (Convert.ToInt32(row["ID"]) == id) {
 						result_ids.Add(id);
 					}
 				}

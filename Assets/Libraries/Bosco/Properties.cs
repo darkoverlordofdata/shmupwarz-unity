@@ -37,6 +37,8 @@ namespace Bosco {
 				db.CreateTable("leaderboard", @"[""date"", ""score""]");
 				db.Commit();
 			}
+			//Debug.Log(db.Serialize());
+
 		}
 	
 		/**
@@ -78,28 +80,21 @@ namespace Bosco {
 	
 			DateTime today = DateTime.Today;
 			var mm = today.Month.ToString();
-			Debug.Log("mm = "+mm);
+			if (mm.Length == 1) mm = "0"+mm;
 			var dd = today.Day.ToString();
-			Debug.Log("dd = "+dd);
+			if (dd.Length == 1) dd = "0"+dd;
 			var yyyy = today.Year.ToString();
-			Debug.Log("yyyy = "+yyyy);
 			var yyyymmdd = yyyy+mm+dd;
-			Debug.Log("yyyymmdd = "+yyyymmdd);
 
 			var jsonQuery = string.Format(@"{{""query"":{{""date"": ""{0}""}}}}", yyyymmdd);
-			Debug.Log("jsonQuery = "+jsonQuery);
 			var jsonInsert = string.Format(@"{{""date"": ""{0}"", ""score"":{1}}}", yyyymmdd, score);
-			Debug.Log("jsonInsert = "+jsonInsert);
 			var jsonUpdate = string.Format(@"{{""date"": ""{0}""}}", yyyymmdd);
-			Debug.Log("jsonUpdate = "+jsonUpdate);
 
 			if (0 == db.QueryAll("leaderboard", jsonQuery).Count) {
-				Debug.Log("Insert score");
 				db.Insert("leaderboard", jsonInsert);
 			} else {
-				Debug.Log("Update score");
 				db.Update("leaderboard", jsonUpdate,  (JSONObject row) => {
-					if (score > (int)row["score"]) {
+					if (score > Convert.ToInt32(row["score"])) {
 						row["score"] = score;
 					}
 					return row;
@@ -115,8 +110,8 @@ namespace Bosco {
 		* @returns {JSONArray} the top count scores.
 		*/
 		public static JSONArray GetLeaderboard(int count) {
-			var jsonQueryAll = string.Format(@"{""limit"":{0}, ""sort"": [[""score"", ""DESC""]]}", count);
-			
+			var jsonQueryAll = string.Format(@"{{""limit"":{0}, ""sort"": [[""score"", ""DESC""]]}}", count);
+
 			return db.QueryAll("leaderboard", jsonQueryAll);
 		}
 	
