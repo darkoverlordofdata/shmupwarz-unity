@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -9,72 +10,47 @@ using Bosco.Utils;
 
 public class LeaderboardController : MonoBehaviour {
 	
-	string score="";
 	JSONArray data;
-
+	
 	void Start () {
+
 		try {
 			Properties.Init("shmupwarz", @"[
 				{""name"":""playSfx"", ""value"":true},
 				{""name"":""playMusic"", ""value"":true}
 			]");
-			data = Properties.GetLeaderboard(1);
+			data = Properties.GetLeaderboard(5);
 		} catch (Exception e) {
 			Debug.Log("Error: "+e.ToString());
 		}
+
+		for (var r=0; r<5; r++) {
+			string yyyymmdd = "";
+			int score = 0;
+			if (r<data.Count) {
+				var row = JSON.Object(data[r]);
+				yyyymmdd = Convert.ToString(row["date"]);
+				yyyymmdd = yyyymmdd.Substring(4, 2)+"/"+yyyymmdd.Substring(6)+"/"+yyyymmdd.Substring(0, 4);
+				score = Convert.ToInt32(row["score"]);
+			}
+
+			Debug.Log("Canvas/Panel/TextRow"+r+"Date");
+			Debug.Log("Canvas/Panel/TextRow"+r+"Score");
+
+			GameObject col1 = GameObject.Find("Canvas/Panel/TextRow"+(r+1)+"Date");
+			var text1 = (Text)col1.GetComponent("Text");
+			text1.text = yyyymmdd;
+
+			GameObject col2 = GameObject.Find("Canvas/Panel/TextRow"+(r+1)+"Score");
+			var text2 = (Text)col2.GetComponent("Text");
+			text2.text = score.ToString();
+
+			Debug.Log(""+r+") "+yyyymmdd + " = "+score);
+		}
 	}
 	
-	
-	void ButtonClicked(GameObject _obj) {
-		Debug.Log("Clicked button:"+_obj.name);
-	}
 	
 	void Update () {
-		
 	}
-	
-	void OnGUI()
-	{
-		GUIStyle style = new GUIStyle();
-		style.font = (Font)Resources.Load("OpenDyslexic-Regular", typeof(Font));
-		style.normal.textColor = Color.white;
-		style.fontSize = 20;
 
-
-		GUILayout.Space(60);
-
-		GUILayout.BeginArea(new Rect(20, 3*(Screen.height/16), Screen.width-20, Screen.height-(Screen.height/4)));
-		GUILayout.BeginHorizontal();
-		GUILayout.Label("          Date", style, GUILayout.Width((Screen.width-40)/2));
-		GUILayout.Label("Score", style, GUILayout.Width((Screen.width-40)/2));
-		GUILayout.EndHorizontal();
-
-		GUILayout.BeginHorizontal();
-		GUILayout.Label("");
-		GUILayout.EndHorizontal();
-
-
-		foreach (JSONObject row in data) {
-			GUILayout.BeginHorizontal();
-			string yyyymmdd = Convert.ToString(row["date"]);
-			yyyymmdd = yyyymmdd.Substring(4, 2)+"/"+yyyymmdd.Substring(6)+"/"+yyyymmdd.Substring(0, 4);
-			GUILayout.Label("    "+yyyymmdd, style, GUILayout.Width((Screen.width-40)/2));
-			GUILayout.Label(Convert.ToString(row["score"]), style, GUILayout.Width((Screen.width-40)/2));
-			GUILayout.EndHorizontal();
-		}
-
-
-
-		GUILayout.EndArea();
-		
-		GUILayout.Space(25);
-		/*
-		foreach(Scores _score in highscore)
-		{
-			GUILayout.BeginHorizontal();
-			GUILayout.Label(_score.name,GUILayout.Width(Screen.width/2));
-			GUILayout.Label(""+_score.score,GUILayout.Width(Screen.width/2));
-			GUILayout.EndHorizontal();
-		}*/
-	}
 }

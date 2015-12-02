@@ -37,7 +37,7 @@ namespace Bosco {
 				db.CreateTable("leaderboard", @"[""date"", ""score""]");
 				db.Commit();
 			}
-			//Debug.Log(db.Serialize());
+			Debug.Log(db.Serialize());
 
 		}
 	
