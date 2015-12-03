@@ -26,12 +26,12 @@ public class LeaderboardController : MonoBehaviour {
 
 		for (var r=0; r<5; r++) {
 			string yyyymmdd = "";
-			int score = 0;
+			string score = "";
 			if (r<data.Count) {
 				var row = JSON.Object(data[r]);
 				yyyymmdd = Convert.ToString(row["date"]);
-				yyyymmdd = yyyymmdd.Substring(4, 2)+"/"+yyyymmdd.Substring(6)+"/"+yyyymmdd.Substring(0, 4);
-				score = Convert.ToInt32(row["score"]);
+				yyyymmdd = yyyymmdd.Substring(4, 2)+"/"+yyyymmdd.Substring(6)+"/"+yyyymmdd.Substring(2, 2);
+				score = Convert.ToString(row["score"]);
 			}
 
 			Debug.Log("Canvas/Panel/TextRow"+r+"Date");
