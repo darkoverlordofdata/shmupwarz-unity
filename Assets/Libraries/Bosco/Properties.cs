@@ -111,7 +111,6 @@ namespace Bosco {
 		*/
 		public static JSONArray GetLeaderboard(int count) {
 			var jsonQueryAll = string.Format(@"{{""limit"":{0}, ""sort"": [[""score"", ""DESC""]]}}", count);
-
 			return db.QueryAll("leaderboard", jsonQueryAll);
 		}
 	

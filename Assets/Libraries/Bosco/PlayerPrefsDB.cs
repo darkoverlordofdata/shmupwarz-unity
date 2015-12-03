@@ -69,11 +69,15 @@ namespace Bosco {
 		public PlayerPrefsDB (string db_name) {
 			db_id = db_prefix + db_name;
 			db_new = false;
-	
+
+			//string test = @"{""tables"":{""settings"":{""auto_increment"":3, ""fields"":[""ID"", ""name"", ""value""]}, ""leaderboard"":{""auto_increment"":1, ""fields"":[""ID"", ""date"", ""score""]}}, ""data"":{""settings"":{""1"":{""name"":""playSfx"", ""value"":true, ""ID"":1}, ""2"":{""name"":""playMusic"", ""value"":true, ""ID"":2}}, ""leaderboard"":{""1"":{""date"":""20151103"", ""score"":420, ""ID"":1}, ""2"":{""date"":""20151113"", ""score"":620, ""ID"":2}, ""3"":{""date"":""20151130"", ""score"":521, ""ID"":3}, ""4"":{""date"":""20151203"", ""score"":499, ""ID"":4}}}}";
+
 			if (PlayerPrefs.HasKey(db_id)) {
 				db = (JSONObject)JSON.Parse(PlayerPrefs.GetString(db_id));
+				//db = (JSONObject)JSON.Parse(test);
 			} else {
 				db = (JSONObject)JSON.Parse(@"{""tables"": {}, ""data"": {}}");
+				//db = (JSONObject)JSON.Parse(test);
 				Commit();
 				db_new = true;
 			}
@@ -206,7 +210,7 @@ namespace Bosco {
 				for (var i=0; i<fields.Length; i++) {
 					if (!validateName(fields[i])) {
 						is_valid = false;
-						throw new Exception("The field name '" + tableName + ":"+ fields[i] + "' contains invalid characters.");
+						//throw new Exception("The field name '" + tableName + ":"+ fields[i] + "' contains invalid characters.");
 						break;
 					}
 				}
@@ -500,12 +504,12 @@ namespace Bosco {
 		* }, limit: 10)
 		* 
 		*/
-		public JSONArray Query(string tableName, object query=null, int limit=-1, int start=-1, object[] sort=null, object[] distinct=null) {
+		public JSONArray Query(string tableName, object query=null, int limit=-1, int start=-1, object sort=null, object distinct=null) {
 			tableExistsWarn(tableName);
-			var resultIds = query == null 
+			var resultIds = query == "" 
 				? getIDs(tableName) 
 				: queryByValues(tableName, (JSONObject)query);
-			return select(tableName, resultIds, start, limit, sort, distinct);
+			return select(tableName, resultIds, start, limit, (JSONArray)sort, (JSONArray)distinct);
 		}
 		// alias for query() that takes a dict of params instead of positional arrguments
 		
@@ -520,20 +524,23 @@ namespace Bosco {
 		* db.Query("settings", @"{""name"": ""playMusic""}", sort:@"[[""name"", ""asc""]]", limit:10);
 		*/
 		public JSONArray QueryAll(string tableName, string query) {
+
 			var args = JSON.Object(JSON.Parse(query));
 			if (args.Count == 0) {
 				return Query(tableName);
 			} else {
+
 				return Query(tableName, 
-				    args.ContainsKey("query") ? args["query"] : null, 1);/*,
-				    args.ContainsKey("limit") ? Convert.ToInt32(args["limit"]) : -1),
+				    args.ContainsKey("query") ? args["query"] : "",
+				    args.ContainsKey("limit") ? Convert.ToInt32(args["limit"]) : -1,
 				    args.ContainsKey("start") ? Convert.ToInt32(args["start"]) : -1,
-					args.ContainsKey("sort") ? (object[])args["sort"] : null,
-					args.ContainsKey("distinct") ? (object[])args["distinct"] : null
-				);*/
+					args.ContainsKey("sort") ? (JSONArray)args["sort"] : null,
+					args.ContainsKey("distinct") ? (JSONArray)args["distinct"] : null
+				);
 			}
 		}
-		
+		//select(string table_name, List<int> ids, int start, int limit, object[] sort, object[] distinct) 
+
 		
 		/**
 		* DeleteRows
@@ -611,7 +618,7 @@ namespace Bosco {
 		private bool columnExists(string table_name, string field_name) {
 			var fields = JSON.Array(tableFields(table_name));
 			for (var i=0; i<fields.Count; i++) {
-				if (fields[i] == field_name) return true;
+				if ((string)fields[i] == field_name) return true;
 			}
 			return false;
 		}
@@ -673,7 +680,7 @@ namespace Bosco {
 		}
 	
 		// select rows, given a list of IDs of rows in a table
-		private JSONArray select(string table_name, List<int> ids, int start, int limit, object[] sort, object[] distinct) {
+		private JSONArray select(string table_name, List<int> ids, int start, int limit, JSONArray sort, JSONArray distinct) {
 			var id = 0;
 			var results = new JSONArray();
 	
@@ -688,7 +695,7 @@ namespace Bosco {
 			// there are sorting params 
 			if (sort != null) {
 				//foreach (var field in sort) {
-				for (var i=0; i<sort.Length; i++) {
+				for (var i=0; i<sort.Count; i++) {
 					var field = JSON.Array(sort[i]);
 	
 					results.Sort(delegate(object o1, object o2){
@@ -709,7 +716,7 @@ namespace Bosco {
 	
 			// distinct params
 			if (distinct != null) {
-				for (var j=0; j<distinct.Length; j++) {
+				for (var j=0; j<distinct.Count; j++) {
 					var seen = new JSONObject();
 					var d = (string)distinct[j];
 					for (var i=0; i<results.Count; i++) {

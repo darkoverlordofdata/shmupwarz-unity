@@ -14,6 +14,8 @@ public class LeaderboardController : MonoBehaviour {
 	
 	void Start () {
 
+
+
 		try {
 			Properties.Init("shmupwarz", @"[
 				{""name"":""playSfx"", ""value"":true},
@@ -34,18 +36,14 @@ public class LeaderboardController : MonoBehaviour {
 				score = Convert.ToString(row["score"]);
 			}
 
-			Debug.Log("Canvas/Panel/TextRow"+r+"Date");
-			Debug.Log("Canvas/Panel/TextRow"+r+"Score");
-
 			GameObject col1 = GameObject.Find("Canvas/Panel/TextRow"+(r+1)+"Date");
 			var text1 = (Text)col1.GetComponent("Text");
 			text1.text = yyyymmdd;
 
 			GameObject col2 = GameObject.Find("Canvas/Panel/TextRow"+(r+1)+"Score");
 			var text2 = (Text)col2.GetComponent("Text");
-			text2.text = score.ToString();
+			text2.text = score;
 
-			Debug.Log(""+r+") "+yyyymmdd + " = "+score);
 		}
 	}
 	
