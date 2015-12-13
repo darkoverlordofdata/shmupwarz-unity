@@ -1,0 +1,19 @@
+using System;
+using UnityEngine;
+
+namespace HelloWorld {
+
+    public class HelloWorldClass {
+        
+        public Version : string { get; set; }
+        
+        public this() {
+            Version = "42";
+        }
+        
+        public SayHello(): string {
+            Debug.Log("Running in the nemerle dll lib");
+            "Hello";
+        }
+    }
+ }

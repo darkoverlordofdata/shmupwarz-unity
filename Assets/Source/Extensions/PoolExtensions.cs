@@ -37,6 +37,7 @@ public static class PoolExtensions {
     }
 
 	public static Entity CreateMine(this Pool pool, int health, float x, float y, float velocity) {
+        
 		Vector3 pos = Camera.main.ScreenToWorldPoint(new Vector3(x, Screen.height-y, 0));
 		
 		return pool.CreateEntity()
@@ -51,6 +52,7 @@ public static class PoolExtensions {
 	public static Entity CreateLife(this Pool pool, int ordinal) {
 		var x = (Screen.width/2)-((ordinal+1) * 40)+87;
 		var y = 80;
+        
 		Vector3 pos = Camera.main.ScreenToWorldPoint(new Vector3(x, Screen.height-y, 0));
 
 		return pool.CreateEntity()
@@ -63,6 +65,7 @@ public static class PoolExtensions {
 	public static Entity CreateStatus(this Pool pool) {
 		var x = (Screen.width/2);
 		var y = 120;
+        
 		Vector3 pos = Camera.main.ScreenToWorldPoint(new Vector3(x, Screen.height-y, 0));
 
 		return pool.SetStatus(100, 0)

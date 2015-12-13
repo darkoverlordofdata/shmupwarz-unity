@@ -14,26 +14,22 @@ public class LeaderboardController : MonoBehaviour {
 	
 	void Start () {
 
+		const int MAX = 5; // MAX leaderboard entries
 
+		Properties.Init("shmupwarz", @"[
+			{""name"":""playSfx"", ""value"":true},
+			{""name"":""playMusic"", ""value"":true}
+		]");
+		data = Properties.GetLeaderboard(MAX);
 
-		try {
-			Properties.Init("shmupwarz", @"[
-				{""name"":""playSfx"", ""value"":true},
-				{""name"":""playMusic"", ""value"":true}
-			]");
-			data = Properties.GetLeaderboard(5);
-		} catch (Exception e) {
-			Debug.Log("Error: "+e.ToString());
-		}
-
-		for (var r=0; r<5; r++) {
-			string yyyymmdd = "";
+		for (var r=0; r<MAX; r++) {
 			string score = "";
+			string yyyymmdd = "";
 			if (r<data.Count) {
 				var row = JSON.Object(data[r]);
+				score = Convert.ToString(row["score"]);
 				yyyymmdd = Convert.ToString(row["date"]);
 				yyyymmdd = yyyymmdd.Substring(4, 2)+"/"+yyyymmdd.Substring(6)+"/"+yyyymmdd.Substring(2, 2);
-				score = Convert.ToString(row["score"]);
 			}
 
 			GameObject col1 = GameObject.Find("Canvas/Panel/TextRow"+(r+1)+"Date");

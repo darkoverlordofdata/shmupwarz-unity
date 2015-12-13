@@ -1,10 +1,13 @@
 ﻿using UnityEngine;
+using System;
 using System.Collections;
+using HelloWorld;
 
 public class UIManagerScript : MonoBehaviour {
 
 	public void Start() {
-		Debug.Log ("Hello");
+        HelloWorldClass x = new HelloWorldClass();
+        Debug.Log(x.SayHello()+" From Nemerle");
 	}
 
 	public void StartGame() {
