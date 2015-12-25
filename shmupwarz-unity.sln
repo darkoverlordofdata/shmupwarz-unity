@@ -1,7 +1,5 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2012
-Project("{672766C8-13AC-1A26-5F0D-CBDD83B6BFA8}") = "shmupwarz-unity", "Assembly-CSharp.csproj", "{2D4A13F6-E904-F52B-C24D-D015D33D764C}"
-EndProject
 Project("{672766C8-13AC-1A26-5F0D-CBDD83B6BFA8}") = "shmupwarz-unity", "Assembly-CSharp-Editor.csproj", "{38D797F4-C2BF-0BC9-83A6-02C0D1D73935}"
 EndProject
 Global
@@ -10,10 +8,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{2D4A13F6-E904-F52B-C24D-D015D33D764C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{2D4A13F6-E904-F52B-C24D-D015D33D764C}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{2D4A13F6-E904-F52B-C24D-D015D33D764C}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{2D4A13F6-E904-F52B-C24D-D015D33D764C}.Release|Any CPU.Build.0 = Release|Any CPU
 		{38D797F4-C2BF-0BC9-83A6-02C0D1D73935}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{38D797F4-C2BF-0BC9-83A6-02C0D1D73935}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{38D797F4-C2BF-0BC9-83A6-02C0D1D73935}.Release|Any CPU.ActiveCfg = Release|Any CPU
