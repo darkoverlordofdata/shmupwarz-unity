@@ -1,12 +1,17 @@
 # Shmup Warz
 
-Shmup Warz using Entitas-CSharp and Unity
+Shmup Warz using FSharp and Unity
 
 A port from typescript of Shmup Warz for EntitasTS - https://github.com/darkoverlordofdata/shmupwarz
 Inspired by https://github.com/Flet/spaceship-warrior-gradle
 
-Disclaimer: This is my first unity project. This may not be the best way to do anything :)
+Game Logic is at https://github.com/darkoverlordofdata/Bosco.ECS
 
+
+
+# History
+
+2/28/16 - upgraded to Unity3d v5.3.3f1
 
 # MIT License
 
