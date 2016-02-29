@@ -7,6 +7,9 @@ Inspired by https://github.com/Flet/spaceship-warrior-gradle
 
 Game Logic is at https://github.com/darkoverlordofdata/Bosco.ECS
 
+![Menu](./ShmupwarzMenu.png "Menu")
+
+![Plat](./ShmupwarzPlay.png "Play")
 
 
 # History
